@@ -1,0 +1,4 @@
+{% for blog in blogs %}
+    <h2><a href="{% url 'blog_detail' blog.pk %}"></a></h2>
+{% endfor %}
+<a href="{% url 'blog_create' %}">Add new Blog</a>
