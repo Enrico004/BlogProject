@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Dashboard</h1>
+
+    <!-- Neueste Blogs -->
+    <h2>Neueste Blogs</h2>
+    <ul>
+        {% for blog in latest_blogs %}
+            <li>
+                <h3><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h3>
+                <p>Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
+                <p>Aufrufe: {{ blog.clicks }}</p>
+                <p>Likes: {{ blog.likes }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Blogs mit den meisten Klicks -->
+    <h2>Beliebteste Blogs (nach Klicks)</h2>
+    <ul>
+        {% for blog in most_clicked_blogs %}
+            <li>
+                <h3><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h3>
+                <p>Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
+                <p>Aufrufe: {{ blog.clicks }}</p>
+                <p>Likes: {{ blog.likes }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Link zur Blog-Liste -->
+    <a href="{% url 'blog_list' %}">Alle Blogs anzeigen</a>
+</body>
+</html>

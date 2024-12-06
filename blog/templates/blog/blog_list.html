@@ -1,4 +1,45 @@
-{% for blog in blogs %}
-    <h2><a href="{% url 'blog_detail' blog.pk %}"></a></h2>
-{% endfor %}
-<a href="{% url 'blog_create' %}">Add new Blog</a>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blog List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Datum</th>
+                <th>Aufrufe</th>
+                <th>Likes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for blog in blogs %}
+                <tr>
+                    <td>{{ blog.title }}</td>
+                    <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
+                    <td>{{ blog.clicks }}</td>
+                    <td>{{ blog.likes }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'blog_dashboard' %}">Blog Dashboard anzeigen</a>
+    <a href="{% url 'blog_create' %}">Add new Blog</a>
+</body>
+</html>

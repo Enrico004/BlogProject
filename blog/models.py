@@ -4,4 +4,6 @@ from django.db import models
 class Blog(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
+    clicks = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
