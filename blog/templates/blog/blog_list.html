@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Blog List</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
-</head>
-<body>
+
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
     <h1>Blog List</h1>
     <table>
         <thead>
@@ -29,17 +15,16 @@
             </tr>
         </thead>
         <tbody>
-            {% for blog in blogs %}
-                <tr>
-                    <td>{{ blog.title }}</td>
-                    <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
-                    <td>{{ blog.clicks }}</td>
-                    <td>{{ blog.likes }}</td>
-                </tr>
-            {% endfor %}
+        {% for blog in blogs %}
+            <tr>
+                <td>{{ blog.title }}</td>
+                <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
+                <td>{{ blog.clicks }}</td>
+                <td>{{ blog.likes }}</td>
+            </tr>
         </tbody>
+{% endfor %}
     </table>
     <a href="{% url 'blog_dashboard' %}">Blog Dashboard anzeigen</a>
     <a href="{% url 'blog_create' %}">Add new Blog</a>
-</body>
-</html>
+{% endblock %}

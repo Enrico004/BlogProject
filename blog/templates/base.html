@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+    <title>Blog List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+  <main>
+  {% if user.is_authenticated %}
+      <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+  {% else %}
+    <form action="{% url 'login' %}" method="get">
+        <button type="submit">Login</button>
+    </form>
+  {% endif %}
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+
+</html>
