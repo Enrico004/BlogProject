@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
     <h1>Dashboard</h1>
 
     <!-- Neueste Blogs -->
@@ -34,5 +32,4 @@
 
     <!-- Link zur Blog-Liste -->
     <a href="{% url 'blog_list' %}">Alle Blogs anzeigen</a>
-</body>
-</html>
+{% endblock %}
