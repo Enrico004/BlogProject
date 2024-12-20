@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <h1>Blog List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Datum</th>
+                <th>Aufrufe</th>
+                <th>Likes</th>
+                <th>Author</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for blog in blogs %}
+            <tr>
+                <td>{{ blog.title }}</td>
+                <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
+                <td>{{ blog.clicks }}</td>
+                <td>{{ blog.likes }}</td>
+                <td>{{ blog.autor }}</td>
+                <td>Bearbeiten</td>
+                <td>Löschen</td>
+            </tr>
+        </tbody>
+{% endfor %}
+    </table>
+    <a href="{% url 'blog_dashboard' %}">Blog Dashboard anzeigen</a>
+    <a href="{% url 'blog_create' %}">Add new Blog</a>
+{% endblock %}
