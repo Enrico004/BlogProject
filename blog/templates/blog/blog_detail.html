@@ -7,4 +7,16 @@
     <p>Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
     <p>Autor: {{ blog.author }}</p>
     <p>Aufrufe: {{ blog.clicks }}</p>
+    {% if user.is_authenticated %}
+      <form action="{% url 'blogpost_like' object.id %}" method="POST">
+        {% csrf_token %}
+
+        {% if post_is_liked %}
+        <button type="submit" name="blogpost_id" value="{{object.id}}" class="btn btn-info">Unlike</button>
+        {% else %}
+        <button type="submit" name="blogpost_id" value="{{object.id}}" class="btn btn-info">Like</button>
+        {% endif %}
+      </form>
+    {% endif %}
+    <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
 {% endblock %}
