@@ -60,6 +60,12 @@ class BlogCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Übergibt einen leeren Blog-Objekt für den Zugriff auf Klicks/Likes
+        context['blog'] = self.object or Blog(clicks=0, likes=0)
+        return context
+
 class BlogDeleteView(DeleteView):
     model = Blog
     success_url = reverse_lazy('blog_list')

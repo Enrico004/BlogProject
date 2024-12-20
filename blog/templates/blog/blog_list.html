@@ -1,7 +1,6 @@
-
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Blog List{% endblock %}
 
 {% block content %}
     <h1>Blog List</h1>
@@ -17,13 +16,18 @@
         <tbody>
         {% for blog in blogs %}
             <tr>
-                <td>{{ blog.title }}</td>
+                <!-- Titel als Link zur Detailansicht -->
+                <td>
+                    <a href="{% url 'blog_detail' blog.pk %}">
+                        {{ blog.title }}
+                    </a>
+                </td>
                 <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
                 <td>{{ blog.clicks }}</td>
                 <td>{{ blog.likes }}</td>
             </tr>
+        {% endfor %}
         </tbody>
-{% endfor %}
     </table>
     <a href="{% url 'blog_dashboard' %}">Blog Dashboard anzeigen</a>
     <a href="{% url 'blog_create' %}">Add new Blog</a>

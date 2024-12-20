@@ -1,11 +1,26 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Create Blog{% endblock %}
 
 {% block content %}
+<h1>Create a New Blog</h1>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <p>{{ form.title.label_tag }} {{ form.title }}</p>
+    <p>{{ form.content.label_tag }} {{ form.content }}</p>
+    
+    <!-- Klicks und Likes als reiner Text -->
+<style>
+    .readonly-field {
+        font-weight: bold;
+        color: #555;
+    }
+</style>
+<p>Clicks: <span class="readonly-field">{{ blog.clicks }}</span></p>
+<p>Likes: <span class="readonly-field">{{ blog.likes }}</span></p>
+    
     <button type="submit">Create Blog</button>
 </form>
 {% endblock %}
+
+

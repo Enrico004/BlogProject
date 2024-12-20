@@ -8,7 +8,7 @@ class Blog(models.Model):
     clicks = models.IntegerField(default=0)
     likes = models.ManyToManyField(User, related_name='likes')
     created_date = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 
     def number_of_likes(self):
         return self.likes.count()
