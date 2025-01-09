@@ -1,10 +1,14 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy, reverse
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 
-from blog.forms import BlogForm
+from blog.forms import BlogForm, UpdateUserForm, UpdateProfileForm
 from blog.models import Blog
 
 
@@ -23,20 +27,13 @@ class BlogDetailView(DetailView):
         # Hole das Blog-Objekt
         blog = super().get_object(queryset)
         # Erhöhe die Klickanzahl
-        user_is_author = blog.author == self.request.user
-        if user_is_author:
-            blog.clicks += 1
-            blog.save()
+        blog.clicks += 1
+        blog.save()
         return blog
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        likes_connected = get_object_or_404(Blog, id=self.kwargs['pk'])
-        liked = False
-        if likes_connected.likes.filter(id=self.request.user.id).exists():
-            liked = True
-        data['number_of_likes'] = likes_connected.number_of_likes()
-        data['post_is_liked'] = liked
+        data = add_likes_to_data_context(self.kwargs['pk'],self.request.user.id,data)
         return data
 
 def blog_post_like(request, pk):
@@ -46,7 +43,7 @@ def blog_post_like(request, pk):
     else:
         post.likes.add(request.user)
 
-    return HttpResponseRedirect(reverse('blog_detail', args=[str(pk)]))
+    return JsonResponse({'like-count':post.likes.count()})
 
 class BlogCreateView(CreateView):
     model = Blog
@@ -62,7 +59,7 @@ class BlogCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Übergibt einen leeren Blog-Objekt für den Zugriff auf Klicks/Likes
+        # Übergibt ein leeres Blog-Objekt für den Zugriff auf Klicks/Likes
         context['blog'] = self.object or Blog(clicks=0, likes=0)
         return context
 
@@ -89,6 +86,13 @@ class SignupView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'blog/change_password.html'
+    success_url = reverse_lazy('blog_dashboard')
+    success_message = 'Your password has been updated.'
+
+
 class UserBlogListView(ListView):
     model = Blog
     template_name = 'blog/blog_user_list.html'
@@ -96,4 +100,38 @@ class UserBlogListView(ListView):
 
     def get_queryset(self):
         user = self.request.user
+
         return Blog.objects.filter(author=user)
+
+def add_likes_to_data_context(blog_id,user_id,context):
+    likes_connected = get_object_or_404(Blog, id=blog_id)
+    liked = False
+    if likes_connected.likes.filter(id=user_id).exists():
+        liked = True
+    context['number_of_likes'] = likes_connected.number_of_likes()
+    context['post_is_liked'] = liked
+    return context
+
+
+@login_required
+def profile(request):
+    """
+    view that handles updating of the user profile, allows user to set a profile picture
+    :param request: request received from the frontend
+    :return: returns either a redirect to the users profile page(POST) or the rendered
+    forms to update the user profile
+    """
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect(to='users-profile')
+        pass
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+    return render(request, 'blog/profile.html', {'user_form': user_form, 'profile_form': profile_form})

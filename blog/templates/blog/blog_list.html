@@ -9,6 +9,7 @@
             <tr>
                 <th>Titel</th>
                 <th>Datum</th>
+                <th>Autor</th>
                 <th>Aufrufe</th>
                 <th>Likes</th>
             </tr>
@@ -23,8 +24,9 @@
                     </a>
                 </td>
                 <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
+                <td>{{ blog.author }}</td>
                 <td>{{ blog.clicks }}</td>
-                <td>{{ blog.likes }}</td>
+                <td>{{ blog.number_of_likes }} Like{{ blog.number_of_likes|pluralize }}</td>
             </tr>
         {% endfor %}
         </tbody>

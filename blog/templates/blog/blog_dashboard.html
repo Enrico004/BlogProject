@@ -12,7 +12,7 @@
                 <h3><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h3>
                 <p>Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
                 <p>Aufrufe: {{ blog.clicks }}</p>
-                <p>Likes: {{ blog.likes }}</p>
+                <p>Like{{ blog.number_of_likes|pluralize }}: {{ blog.number_of_likes }}</p>
             </li>
         {% endfor %}
     </ul>
@@ -25,7 +25,7 @@
                 <h3><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h3>
                 <p>Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
                 <p>Aufrufe: {{ blog.clicks }}</p>
-                <p>Likes: {{ blog.likes }}</p>
+                <p>Like{{ blog.number_of_likes|pluralize }}: {{ blog.number_of_likes }}</p>
             </li>
         {% endfor %}
     </ul>
