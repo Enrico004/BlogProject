@@ -7,13 +7,18 @@
         <p>{{ blog.content }}</p>
         <p>Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
         <p>Autor: {{ blog.author }}</p>
+        <img src="{{ blog.author.profile.avatar.url }}">
         <p>Aufrufe: {{ blog.clicks }}</p>
         {% if user.is_authenticated %}
-            {% csrf_token %}
-        <div id="like-section" data-post-id="{{ blog.id }}">
-            <button id="like-button"></button>
-        </div>{% endif %}
-        <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+            <button id="like-button" data-liked="{% if user in blog.likes.all %}true{% else %}false{% endif %}">
+                {% if user in blog.likes.all %}
+                    Unlike
+                {% else %}
+                    Like
+                {% endif %}
+            </button>
+        {% endif %}
+        <strong class="text-secondary" id="like-count">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
     </div>
 
     <!-- Button zurück zur Dashboard-Ansicht -->
@@ -33,28 +38,40 @@
     }
 </style>
 <script>
-    document.getElementById('like-button').addEventListener('click', function () {
+    const likeButton = document.getElementById('like-button');
+    const likeCountElement = document.getElementById('like-count'); // Reference to the like count element
 
-        //TODO
-        const csrftoken = '{{ csrf_token }}';  // Ensure CSRF token is passed
-        const blogDetails = document.getElementById('blog-details'); // Select the blog details div
-        const blogId = blogDetails.dataset.blogId;
-        console.log(this.dataset)
-        fetch(`/blogs/like-post/${blogId}/`, {
+    likeButton.addEventListener('click', function () {
+        const postId = {{ blog.id }};
+        const csrfToken = '{{ csrf_token }}';
+
+        fetch(`/blogs/like/${postId}/`, {  // Note the trailing slash here
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken
+                'X-CSRFToken': csrfToken
             },
-            body: JSON.stringify({})
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            // Update the button text and like count
-            this.textContent = data.liked ? 'Unlike' : 'Like';
-            document.getElementById('like-count').textContent = data.like_count;
+            // Update the button text based on like status
+            likeButton.innerText = data.liked ? 'Unlike' : 'Like';
+            if(data.like_count === 1)
+                text = 'Like';
+            else{
+                text = 'Likes';
+            }
+            // Update the like count dynamically
+            likeCountElement.innerText = `${data.like_count} ${text}`;
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+        });
     });
 </script>
     <a href="{% url 'blog_dashboard' %}" class="button">Zurück zum Dashboard</a>

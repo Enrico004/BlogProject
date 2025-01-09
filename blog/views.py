@@ -60,13 +60,38 @@ class BlogCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Übergibt ein leeres Blog-Objekt für den Zugriff auf Klicks/Likes
-        context['blog'] = self.object or Blog(clicks=0, likes=0)
+        context['blog'] = self.object or Blog(clicks=0)
         return context
+
+
+@login_required
+def blog_post_like(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+
+    if blog.likes.filter(id=request.user.id).exists():
+        # User already liked the post, so remove the like
+        blog.likes.remove(request.user)
+        liked = False
+    else:
+        # User has not liked the post, so add the like
+        blog.likes.add(request.user)
+        liked = True
+
+    return JsonResponse({'liked': liked, 'like_count': blog.likes.count()})
+
 
 class BlogDeleteView(DeleteView):
     model = Blog
     success_url = reverse_lazy('blog_list')
     template_name = 'blog/blog_delete.html'
+
+    def get_object(self, queryset=None):
+        # Increment clicks only if the user is visiting (not liking)
+        blog = super().get_object(queryset)
+        if not self.request.user.is_authenticated or self.request.method == "GET":
+            blog.clicks += 1
+            blog.save()
+        return blog
 
 class BlogDashboardView(ListView):
     model = Blog
