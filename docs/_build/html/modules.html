@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="de" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlogProject2 &mdash; Blog-Project WiWi DOKU 0.9 Dokumentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=79e515e4"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=9bf55d28"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="genindex.html" />
+    <link rel="search" title="Suche" href="search.html" />
+    <link rel="next" title="BlogProject package" href="BlogProject.html" />
+    <link rel="prev" title="Blog-Project WiWi DOKU documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Blog-Project WiWi DOKU
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Dokumentation durchsuchen" aria-label="Dokumentation durchsuchen" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BlogProject2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="BlogProject.html">BlogProject package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html">blog package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-BlogProject.settings">BlogProject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-blog.models">Blog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#blog.models.Blog"><code class="docutils literal notranslate"><span class="pre">Blog</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Blog.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Blog.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.author"><code class="docutils literal notranslate"><span class="pre">Blog.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.author_id"><code class="docutils literal notranslate"><span class="pre">Blog.author_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.clicks"><code class="docutils literal notranslate"><span class="pre">Blog.clicks</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.content"><code class="docutils literal notranslate"><span class="pre">Blog.content</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.created_date"><code class="docutils literal notranslate"><span class="pre">Blog.created_date</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.get_next_by_created_date"><code class="docutils literal notranslate"><span class="pre">Blog.get_next_by_created_date()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.get_previous_by_created_date"><code class="docutils literal notranslate"><span class="pre">Blog.get_previous_by_created_date()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.id"><code class="docutils literal notranslate"><span class="pre">Blog.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.likes"><code class="docutils literal notranslate"><span class="pre">Blog.likes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.number_of_likes"><code class="docutils literal notranslate"><span class="pre">Blog.number_of_likes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.objects"><code class="docutils literal notranslate"><span class="pre">Blog.objects</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Blog.title"><code class="docutils literal notranslate"><span class="pre">Blog.title</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#blog.models.Profile"><code class="docutils literal notranslate"><span class="pre">Profile</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Profile.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Profile.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Profile.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Profile.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Profile.avatar"><code class="docutils literal notranslate"><span class="pre">Profile.avatar</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Profile.id"><code class="docutils literal notranslate"><span class="pre">Profile.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Profile.objects"><code class="docutils literal notranslate"><span class="pre">Profile.objects</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Profile.save"><code class="docutils literal notranslate"><span class="pre">Profile.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Profile.user"><code class="docutils literal notranslate"><span class="pre">Profile.user</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blog.models.Profile.user_id"><code class="docutils literal notranslate"><span class="pre">Profile.user_id</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Blog-Project WiWi DOKU</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BlogProject2</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> Quelltext anzeigen</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="blogproject2">
+<h1>BlogProject2<a class="headerlink" href="#blogproject2" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Inhalte:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="BlogProject.html">BlogProject package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="BlogProject.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BlogProject.html#module-BlogProject.asgi">BlogProject.asgi module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BlogProject.html#module-BlogProject.settings">BlogProject.settings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BlogProject.html#module-BlogProject.urls">BlogProject.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BlogProject.html#module-BlogProject.wsgi">BlogProject.wsgi module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BlogProject.html#module-BlogProject">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="blog.html">blog package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#module-blog.admin">blog.admin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#module-blog.apps">blog.apps module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#module-blog.forms">blog.forms module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#module-blog.models">blog.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#module-blog.signals">blog.signals module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#module-blog.tests">blog.tests module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#module-blog.urls">blog.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#module-blog.views">blog.views module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blog.html#module-blog">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-BlogProject.settings">
+<span id="blogproject"></span><h1>BlogProject<a class="headerlink" href="#module-BlogProject.settings" title="Link to this heading"></a></h1>
+<p>Django settings for BlogProject project.</p>
+<p>Generated by ‚django-admin startproject‘ using Django 5.1.3.</p>
+<p>For more information on this file, see
+<a class="reference external" href="https://docs.djangoproject.com/en/5.1/topics/settings/">https://docs.djangoproject.com/en/5.1/topics/settings/</a></p>
+<p>For the full list of settings and their values, see
+<a class="reference external" href="https://docs.djangoproject.com/en/5.1/ref/settings/">https://docs.djangoproject.com/en/5.1/ref/settings/</a></p>
+</section>
+<section id="module-blog.models">
+<span id="blog"></span><h1>Blog<a class="headerlink" href="#module-blog.models" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="blog.models.Blog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blog.models.</span></span><span class="sig-name descname"><span class="pre">Blog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/models.html#Blog"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.models.Blog" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Modell der Beiträge
+enthält einen Titel, Inhalt, Aufrufe, Likes, Erstellungsdatum, Autor</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="blog.models.Blog.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#blog.models.Blog.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="blog.models.Blog.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#blog.models.Blog.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Blog.author">
+<span class="sig-name descname"><span class="pre">author</span></span><a class="headerlink" href="#blog.models.Blog.author" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Blog.author_id">
+<span class="sig-name descname"><span class="pre">author_id</span></span><a class="headerlink" href="#blog.models.Blog.author_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Blog.clicks">
+<span class="sig-name descname"><span class="pre">clicks</span></span><a class="headerlink" href="#blog.models.Blog.clicks" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Blog.content">
+<span class="sig-name descname"><span class="pre">content</span></span><a class="headerlink" href="#blog.models.Blog.content" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Blog.created_date">
+<span class="sig-name descname"><span class="pre">created_date</span></span><a class="headerlink" href="#blog.models.Blog.created_date" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blog.models.Blog.get_next_by_created_date">
+<span class="sig-name descname"><span class="pre">get_next_by_created_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blog.models.Blog.get_next_by_created_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blog.models.Blog.get_previous_by_created_date">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#blog.models.Blog.get_previous_by_created_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Blog.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#blog.models.Blog.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Blog.likes">
+<span class="sig-name descname"><span class="pre">likes</span></span><a class="headerlink" href="#blog.models.Blog.likes" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blog.models.Blog.number_of_likes">
+<span class="sig-name descname"><span class="pre">number_of_likes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/models.html#Blog.number_of_likes"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.models.Blog.number_of_likes" title="Link to this definition"></a></dt>
+<dd><p>Summiert die Anzahl der Likes, die der Beitrag hat
+:return: Summe der Likes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Blog.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#blog.models.Blog.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Blog.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#blog.models.Blog.title" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="blog.models.Profile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blog.models.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/models.html#Profile"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.models.Profile" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="blog.models.Profile.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#blog.models.Profile.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="blog.models.Profile.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#blog.models.Profile.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Profile.avatar">
+<span class="sig-name descname"><span class="pre">avatar</span></span><a class="headerlink" href="#blog.models.Profile.avatar" title="Link to this definition"></a></dt>
+<dd><p>Just like the FileDescriptor, but for ImageFields. The only difference is
+assigning the width/height to the width_field/height_field, if appropriate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Profile.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#blog.models.Profile.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Profile.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#blog.models.Profile.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blog.models.Profile.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/models.html#Profile.save"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.models.Profile.save" title="Link to this definition"></a></dt>
+<dd><p>Überschreibt die Standard-Methode zum Speichern des Modells.
+Wenn das Bild die Standardgröße von 100x100 Pixel überschreitet, wird die Größe des Bilds angepasst
+:param args:
+:param kwargs:
+:return:</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Profile.user">
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#blog.models.Profile.user" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Restaurant.place</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blog.models.Profile.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><a class="headerlink" href="#blog.models.Profile.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Blog-Project WiWi DOKU documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Zurück</a>
+        <a href="BlogProject.html" class="btn btn-neutral float-right" title="BlogProject package" accesskey="n" rel="next">Weiter <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, WiWi.</p>
+  </div>
+
+  Erstellt mit <a href="https://www.sphinx-doc.org/">Sphinx</a> mit einem
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    bereitgestellt von <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
