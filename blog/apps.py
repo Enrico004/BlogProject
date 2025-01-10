@@ -6,4 +6,5 @@ class BlogConfig(AppConfig):
     name = 'blog'
 
     def ready(self):
+        # imports the signal file to create a profile everytime a user is created
         import blog.signals

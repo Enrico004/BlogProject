@@ -8,10 +8,10 @@ from blog.models import Profile
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     """
-    method which gets called every time a user creates a profile
-    :param sender: model that notifies this method
-    :param instance: profile instance that is created
-    :param created: true if profile is newly created
+    Methode, die aufgerufen wird, sobald ein User-Profil erstellt wird
+    :param sender: Modell, welches die Methode benachrichtigt
+    :param instance: Erstellte Profil-Instanz
+    :param created: Gibt an, ob das Profil neu erstellt wurde
     :param kwargs:
     :return:
     """
@@ -22,9 +22,10 @@ def create_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
     """
-    method that gets called every time a user saves a profile
-    :param sender: model that notifies the receiver -> method when an event occurs
-    :param instance: profile instance that is saved
+    Methode, die jedes Mal aufgerufen wird, sobald ein User-Profil gespeichert wird.
+    Speichert das dazugehörige Profil (Avatar)
+    :param sender: Modell, welches die Methode benachrichtigt
+    :param instance: Zu speichernde Profil-Instanz
     :param kwargs:
     :return:
     """

@@ -1,9 +1,6 @@
-from django.conf.urls.static import static
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 from django.urls import path, include
 
-from BlogProject import settings
 from . import views
 from .views import SignupView, profile, ChangePasswordView
 

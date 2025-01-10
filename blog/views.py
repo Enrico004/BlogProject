@@ -113,28 +113,50 @@ class BlogDashboardView(ListView):
         return context
 
 class SignupView(CreateView):
+    """
+    View-Klasse zum Erstellen eines neuen Nutzers.
+    """
     form_class = UserCreationForm
     success_url = reverse_lazy('blogs:login')
     template_name = 'registration/signup.html'
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    """
+    View-Klasse zum Ändern des Nutzerpassworts
+    Bei Erfolg wird der Nutzer an das Dashboard weitergeleitet
+    """
     template_name = 'blog/change_password.html'
     success_url = reverse_lazy('blogs:blog_dashboard')
     success_message = 'Your password has been updated.'
 
 
 class UserBlogListView(ListView):
+    """
+    View-Klasse für nutzerspezifische Beiträge
+    """
     model = Blog
     template_name = 'blog/blog_user_list.html'
     context_object_name = 'blogs'
 
     def get_queryset(self):
+        """
+        Überschreibt die Standard-Methode.
+        Sammelt alle Beiträge des Nutzers, fügt die Anzahl der Likes hinzu und ordnet sie nach dem Erstellungsdatum
+        :return: Liste von Blog-Objekten
+        """
         user = self.request.user
 
         return Blog.objects.filter(author=user).annotate(like_count=Count('likes')).order_by('-created_date')
 
 def add_likes_to_data_context(blog_id,user_id,context):
+    """
+    Methode, mit welcher die Anzahl der Likes zum Kontext hinzugefügt werden
+    :param blog_id: Id des Beitrags, für den die Likes hinzugefügt werden sollen
+    :param user_id: Nutzer, der die Anfrage gestellt hat
+    :param context: Bereits erstellter Kontext, der ans Frontend gegeben wird. Die Anzahl an Likes und ob der Post vom Nutzer bereits geliked wurde, wird dem Kontext hinzugefügt
+    :return: Kontext mit Anzahl an Likes(number_of_likes) und boolean post_is_liked
+    """
     likes_connected = get_object_or_404(Blog, id=blog_id)
     liked = False
     if likes_connected.likes.filter(id=user_id).exists():
@@ -147,10 +169,9 @@ def add_likes_to_data_context(blog_id,user_id,context):
 @login_required
 def profile(request):
     """
-    view that handles updating of the user profile, allows user to set a profile picture
-    :param request: request received from the frontend
-    :return: returns either a redirect to the users profile page(POST) or the rendered
-    forms to update the user profile
+    View für das Updaten der User-Profile. Erlaubt das Ändern von Nutzernamen und Profilbilds
+    :param request: Anfrage vom Frontend
+    :return: Redirect zur Profil-Seite des Nutzers oder die Form zum Updaten des Profils (abhängig von der Anfrage-Methode)
     """
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
@@ -161,7 +182,6 @@ def profile(request):
             profile_form.save()
             messages.success(request, 'Your profile has been updated!')
             return redirect(to='users-profile')
-        pass
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
