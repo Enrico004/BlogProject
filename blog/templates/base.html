@@ -6,29 +6,92 @@
   <title>{% block title %}Blog List{% endblock %}</title>
   
   <!-- Hier werden die Styles aus den Untertemplates eingefügt -->
+<!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .profile-button{
+            cursor: pointer;
+        }
+    </style>
   {% block styles %}
   {% endblock %}
 </head>
 
 <body>
   <main>
-  {% if user.is_authenticated %}
-    <form action="{% url 'logout' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Logout</button>
-    </form>
-  {% else %}
-    <form action="{% url 'login' %}" method="get">
-      <button type="submit">Login</button>
-    </form>
-    <form action="{% url 'signup' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Register</button>
-    </form>
-  {% endif %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <!-- Other navbar elements -->
+    <div class="d-flex w-100 align-items-center">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Dashboard Link -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog_dashboard' %}">Dashboard</a>
+        </li>
+        <!-- All Blogs Link -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog_list' %}">Alle Blogs</a>
+        </li>
+        <!-- Create BLog Link -->
+        <li class="nav-item">
+            <a class="nav-link ms-auto" href="{% url 'blog_create' %}">Beitrag erstellen</a>
+        </li>
+    </ul>
+      <!-- User Dropdown -->
+      <div class="dropdown ms-auto"> <!-- ms-auto pushes this dropdown to the right -->
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-circle"></i> <!-- Bootstrap icon -->
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+          {% if user.is_authenticated %}
+            <li><a class="dropdown-item" href="{% url 'users-profile' %}">Edit Profile</a></li>
+              {% if user.is_superuser %}
+                    <li>
+                        <a class="dropdown-item" href="/admin/">Admin</a>
+                    </li>
+              {% endif %}
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form class="d-flex" id="logoutForm" action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                  <a class="dropdown-item profile-button" onclick="submitLogoutForm()">Abmelden</a>
+                </form>
+            </li>
+          {% else %}
+            <li>
+                <form id="loginForm" action="{% url 'login' %}" method="get">
+                  <a class="dropdown-item profile-button" onclick="submitLoginForm()">Anmelden</a>
+                </form>
+            </li>
+            <li class="profile-button">
+                <form id="signupForm" action="{% url 'signup' %}" method="post">
+                  {% csrf_token %}
+                  <a class="dropdown-item profile-button" onclick="submitSignupForm()" type="submit">Register</a>
+                </form>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
     {% block content %}
     {% endblock %}
   </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+  function submitSignupForm() {
+    document.getElementById("signupForm").submit();
+  }
+  function submitLoginForm() {
+    document.getElementById("loginForm").submit();
+  }
+  function submitLogoutForm() {
+    document.getElementById("logoutForm").submit();
+  }
+</script>
 </body>
 
 </html>

@@ -4,13 +4,6 @@
 {% block content %}
     <h1 class="dashboard-title">Dashboard</h1>
 
-
-    <!-- Links zu Aktionen oben -->
-    <div class="dashboard-actions top">
-        <a href="{% url 'blog_list' %}" class="btn">Alle Blogs anzeigen</a>
-        <a href="{% url 'blog_create' %}" class="btn">Neuen Blog erstellen</a>
-    </div>
-
     <div class="dashboard-container">
         <!-- Neueste Blogs (linke Seite) -->
         <div class="section latest-blogs">
@@ -43,12 +36,6 @@
                 {% endfor %}
             </ul>
         </div>
-    </div>
-
-    <!-- Links zu Aktionen unten -->
-    <div class="dashboard-actions bottom">
-        <a href="{% url 'blog_list' %}" class="btn">Alle Blogs anzeigen</a>
-        <a href="{% url 'blog_create' %}" class="btn">Neuen Blog erstellen</a>
     </div>
 {% endblock %}
 
