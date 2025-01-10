@@ -8,6 +8,11 @@ class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
         fields = ['title','content']
+        labels = {
+            'title': 'Titel',
+            'content': 'Inhalt',
+        }
+
 
 
 class UpdateUserForm(forms.ModelForm):

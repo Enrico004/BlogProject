@@ -2,11 +2,13 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <h1>Dashboard</h1>
+    <h1 class="dashboard-title">Dashboard</h1>
 
-    <!-- Link zur Blog-Liste oben -->
+
+    <!-- Links zu Aktionen oben -->
     <div class="dashboard-actions top">
         <a href="{% url 'blog_list' %}" class="btn">Alle Blogs anzeigen</a>
+        <a href="{% url 'blog_create' %}" class="btn">Neuen Blog erstellen</a>
     </div>
 
     <div class="dashboard-container">
@@ -43,9 +45,10 @@
         </div>
     </div>
 
-    <!-- Link zur Blog-Liste unten -->
+    <!-- Links zu Aktionen unten -->
     <div class="dashboard-actions bottom">
         <a href="{% url 'blog_list' %}" class="btn">Alle Blogs anzeigen</a>
+        <a href="{% url 'blog_create' %}" class="btn">Neuen Blog erstellen</a>
     </div>
 {% endblock %}
 
@@ -80,6 +83,13 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        .dashboard-title {
+            text-align: center; /* Horizontale Zentrierung */
+            font-size: 2.5rem;
+            color: #333;
+            margin-top: 2rem;
+}
+
 
         .section-title {
             font-size: 1.8rem;

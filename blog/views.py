@@ -27,6 +27,7 @@ class BlogDetailView(DetailView):
     context_object_name = 'blog'
     template_name = 'blog/blog_detail.html'
 
+
     def get_object(self, queryset=None):
         # Hole das Blog-Objekt
         blog = super().get_object(queryset)

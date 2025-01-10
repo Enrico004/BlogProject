@@ -1,78 +1,189 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+
+{% block title %}{{ blog.title }}{% endblock %}
 
 {% block content %}
-    <div id="blog-details" data-blog-id="{{ blog.id }}">
-     <h1>{{ blog.title }}</h1>
-        <p>{{ blog.content }}</p>
-        <p>Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
-        <p>Autor: {{ blog.author }}</p>
-        <img src="{{ blog.author.profile.avatar.url }}">
-        <p>Aufrufe: {{ blog.clicks }}</p>
+<div class="blog-detail-container">
+    <div class="blog-detail">
+        <h1 class="blog-title">{{ blog.title }}</h1>
+        
+        <!-- Profilinformationen und Datum -->
+        <div class="blog-meta-row">
+            <div class="author-info">
+                <img src="{{ blog.author.profile.avatar.url }}" alt="{{ blog.author }}" class="author-avatar">
+                <span class="author-name">{{ blog.author }}</span>
+            </div>
+            <span class="blog-date">Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</span>
+        </div>
+        
+        <p class="blog-content">{{ blog.content }}</p>
+        
+        <div class="blog-meta">
+            <p>Aufrufe: {{ blog.clicks }}</p>
+        </div>
+        
         {% if user.is_authenticated %}
-            <button id="like-button" data-liked="{% if user in blog.likes.all %}true{% else %}false{% endif %}">
+        <div class="like-container">
+            <button id="like-button" class="btn-like" data-liked="{% if user in blog.likes.all %}true{% else %}false{% endif %}">
                 {% if user in blog.likes.all %}
                     Unlike
                 {% else %}
                     Like
                 {% endif %}
             </button>
+            <strong id="like-count">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+        </div>
         {% endif %}
-        <strong class="text-secondary" id="like-count">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
     </div>
-
-    <!-- Button zurück zur Dashboard-Ansicht -->
-
-    <style>
-    .button {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 16px;
-        color: white;
-        background-color: #007bff;
-        text-decoration: none;
-        border-radius: 4px;
-    }
-    .button:hover {
-        background-color: #0056b3;
-    }
-</style>
-<script>
-    const likeButton = document.getElementById('like-button');
-    const likeCountElement = document.getElementById('like-count');
-
-    likeButton.addEventListener('click', function () {
-        const postId = {{ blog.id }};
-        const csrfToken = '{{ csrf_token }}';
-
-        fetch(`/blogs/like/${postId}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            },
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // after receiving response from the backend update the content of the like-count element
-            likeButton.innerText = data.liked ? 'Unlike' : 'Like';
-            if(data.like_count === 1)
-                text = 'Like';
-            else{
-                text = 'Likes';
-            }
-            likeCountElement.innerText = `${data.like_count} ${text}`;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-</script>
-    <a href="{% url 'blog_dashboard' %}" class="button">Zurück zum Dashboard</a>
+    
+    <div class="actions">
+        <a href="{% url 'blog_dashboard' %}" class="btn btn-back">Zurück zum Dashboard</a>
+    </div>
+</div>
 {% endblock %}
 
+{% block styles %}
+<style>
+    .blog-detail-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1.5rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-detail {
+        text-align: center;
+    }
+
+    .blog-title {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .blog-meta-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #777;
+        margin-bottom: 1rem;
+    }
+
+    .author-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .author-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+    }
+
+    .author-name {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .blog-date {
+        color: #777;
+        font-size: 0.9rem;
+    }
+
+    .blog-content {
+        font-size: 1.1rem;
+        color: #555;
+        text-align: left;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .blog-meta {
+        font-size: 0.9rem;
+        color: #777;
+        text-align: left;
+    }
+
+    .like-container {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .btn-like {
+        display: inline-block;
+        padding: 0.8rem 1.6rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-like:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-back {
+        display: inline-block;
+        padding: 0.8rem 1.6rem;
+        background-color: #6c757d;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 2rem;
+    }
+</style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const likeButton = document.getElementById('like-button');
+        const likeCountElement = document.getElementById('like-count');
+
+        if (likeButton) { // Ensure the button exists
+            likeButton.addEventListener('click', function () {
+                const postId = {{ blog.id }};
+                const csrfToken = '{{ csrf_token }}';
+
+                fetch(`/blogs/like/${postId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    likeButton.innerText = data.liked ? 'Unlike' : 'Like';
+                    const text = data.like_count === 1 ? 'Like' : 'Likes';
+                    likeCountElement.innerText = `${data.like_count} ${text}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        } else {
+            console.error('Like button not found in the DOM.');
+        }
+    });
+</script>
+{% endblock %}

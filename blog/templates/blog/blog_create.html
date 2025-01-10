@@ -3,24 +3,164 @@
 {% block title %}Create Blog{% endblock %}
 
 {% block content %}
-<h1>Create a New Blog</h1>
-<form method="post">
-    {% csrf_token %}
-    <p>{{ form.title.label_tag }} {{ form.title }}</p>
-    <p>{{ form.content.label_tag }} {{ form.content }}</p>
-    
-    <!-- Klicks und Likes als reiner Text -->
+<h1 class="page-title">Neuen Blog erstellen</h1>
+
+<div class="form-container">
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_title" class="form-label">{{  form.title.label }}</label>
+            {{ form.title }}
+        </div>
+        <div class="form-group">
+            <label for="id_content" class="form-label">{{ form.content.label }}</label>
+            {{ form.content }}
+        </div>
+        
+        <!-- Klicks und Likes als reiner Text -->
+        <div class="form-group readonly-group">
+            <label>Klicks:</label>
+            <span class="readonly-field">{{ blog.clicks }}</span>
+        </div>
+        <div class="form-group readonly-group">
+            <label>Likes:</label>
+            <span class="readonly-field">0</span>
+        </div>
+        
+        <button type="submit" class="btn-submit">Blog erstellen</button>
+    </form>
+    <div class="actions">
+        <a href="{% url 'blog_dashboard' %}" class="btn-back">Zurück zum Dashboard</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #333;
+        margin-top: 2rem;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .styled-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-label {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        color: #333;
+    }
+
+    textarea {
+        height: 150px;
+        resize: none;
+    }
+
+    .readonly-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     .readonly-field {
         font-weight: bold;
         color: #555;
     }
+
+    .btn-submit {
+        display: inline-block;
+        padding: 0.8rem 1.6rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-submit:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.8rem 1.6rem;
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .form-container {
+            width: 95%;
+            padding: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+        }
+
+        .btn-submit {
+            font-size: 0.9rem;
+        }
+
+        .btn-back {
+            font-size: 0.9rem;
+        }
+    }
 </style>
-<p>Clicks: <span class="readonly-field">{{ blog.clicks }}</span></p>
-<p>Likes: <span class="readonly-field">0</span></p>
-    
-    <button type="submit">Create Blog</button>
-</form>
 {% endblock %}
-
-
