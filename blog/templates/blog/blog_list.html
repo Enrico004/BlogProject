@@ -6,7 +6,7 @@
     <h1 class="blog-list-title">Blog List</h1>
 
     <div class="blog-actions">
-        <a href="{% url 'blog_create' %}" class="btn">Add new Blog</a>
+        <a href="{% url 'blogs:blog_create' %}" class="btn">Beitrag erstellen</a>
     </div>
 
     <div class="blog-table-container">
@@ -24,7 +24,7 @@
                 <tr>
                     <!-- Titel als Link zur Detailansicht -->
                     <td>
-                        <a href="{% url 'blog_detail' blog.pk %}" class="blog-link">
+                        <a href="{% url 'blogs:blog_detail' blog.pk %}" class="blog-link">
                             {{ blog.title }}
                         </a>
                     </td>

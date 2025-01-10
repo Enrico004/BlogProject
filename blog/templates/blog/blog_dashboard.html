@@ -12,7 +12,7 @@
                 {% for blog in latest_blogs %}
                     <li class="blog-item">
                         <div class="blog-card">
-                            <h3><a href="{% url 'blog_detail' blog.pk %}" class="blog-title">{{ blog.title }}</a></h3>
+                            <h3><a href="{% url 'blogs:blog_detail' blog.pk %}" class="blog-title">{{ blog.title }}</a></h3>
                             <p class="blog-meta">Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
                             <p class="blog-stats">Aufrufe: {{ blog.clicks }} | Likes: {{ blog.like_count }}</p>
                         </div>
@@ -28,7 +28,7 @@
                 {% for blog in most_clicked_blogs %}
                     <li class="blog-item">
                         <div class="blog-card">
-                            <h3><a href="{% url 'blog_detail' blog.pk %}" class="blog-title">{{ blog.title }}</a></h3>
+                            <h3><a href="{% url 'blogs:blog_detail' blog.pk %}" class="blog-title">{{ blog.title }}</a></h3>
                             <p class="blog-meta">Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
                             <p class="blog-stats">Aufrufe: {{ blog.clicks }} | Likes: {{ blog.like_count }}</p>
                         </div>

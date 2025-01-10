@@ -6,7 +6,12 @@
 <div class="blog-detail-container">
     <div class="blog-detail">
         <h1 class="blog-title">{{ blog.title }}</h1>
-        
+    {% if user == blog.author %}
+    	        <form action="{% url 'blogs:blog_delete' blog.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger ms-auto">Löschen</button>
+                </form>
+    {% endif %}
         <!-- Profilinformationen und Datum -->
         <div class="blog-meta-row">
             <div class="author-info">
@@ -37,7 +42,7 @@
     </div>
     
     <div class="actions">
-        <a href="{% url 'blog_dashboard' %}" class="btn btn-back">Zurück zum Dashboard</a>
+        <a href="{% url 'blogs:blog_dashboard' %}" class="btn btn-back">Zurück zum Dashboard</a>
     </div>
 </div>
 {% endblock %}
@@ -181,8 +186,6 @@
                     console.error('Error:', error);
                 });
             });
-        } else {
-            console.error('Like button not found in the DOM.');
         }
     });
 </script>

@@ -132,7 +132,7 @@ class UserBlogListView(ListView):
     def get_queryset(self):
         user = self.request.user
 
-        return Blog.objects.filter(author=user)
+        return Blog.objects.filter(author=user).annotate(like_count=Count('likes')).order_by('-created_date')
 
 def add_likes_to_data_context(blog_id,user_id,context):
     likes_connected = get_object_or_404(Blog, id=blog_id)

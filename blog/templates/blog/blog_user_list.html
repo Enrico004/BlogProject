@@ -1,35 +1,139 @@
-
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Blog List{% endblock %}
 
 {% block content %}
-    <h1>Blog List</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Titel</th>
-                <th>Datum</th>
-                <th>Aufrufe</th>
-                <th>Likes</th>
-                <th>Author</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for blog in blogs %}
-            <tr>
-                <td>{{ blog.title }}</td>
-                <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
-                <td>{{ blog.clicks }}</td>
-                <td>{{ blog.like_count }}</td>
-                <td>{{ blog.autor }}</td>
-                <td>Bearbeiten</td>
-                <td>Löschen</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'blog_dashboard' %}">Blog Dashboard anzeigen</a>
-    <a href="{% url 'blog_create' %}">Add new Blog</a>
+    <h1 class="blog-list-title">Meine Beiträge</h1>
+
+    <div class="blog-actions">
+        <a href="{% url 'blogs:blog_create' %}" class="btn">Beitrag erstellen</a>
+    </div>
+
+    <div class="blog-table-container">
+        <table class="blog-table">
+            <thead>
+                <tr>
+                    <th>Titel</th>
+                    <th>Datum</th>
+                    <th>Aufrufe</th>
+                    <th>Likes</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for blog in blogs %}
+                <tr>
+                    <!-- Titel als Link zur Detailansicht -->
+                    <td>
+                        <a href="{% url 'blogs:blog_detail' blog.pk %}" class="blog-link">
+                            {{ blog.title }}
+                        </a>
+                    </td>
+                    <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
+                    <td>{{ blog.clicks }}</td>
+                    <td>{{ blog.like_count }}</td>
+                    <td>
+                        <form action="{% url 'blogs:blogs:blog_delete' blog.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Löschen</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .blog-list-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-top: 2rem;
+        }
+
+        .blog-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.6rem;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .blog-table-container {
+            margin-top: 2rem;
+            overflow-x: auto;
+        }
+
+        .blog-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        td {
+            background-color: #fafafa;
+        }
+
+        .blog-link {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .blog-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .blog-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .blog-table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
 {% endblock %}
