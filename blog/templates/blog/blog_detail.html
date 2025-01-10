@@ -14,13 +14,13 @@
             </div>
             <span class="blog-date">Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</span>
         </div>
-        
+
         <p class="blog-content">{{ blog.content }}</p>
-        
+
         <div class="blog-meta">
             <p>Aufrufe: {{ blog.clicks }}</p>
         </div>
-        
+
         {% if user.is_authenticated %}
         <div class="like-container">
             <strong id="like-count">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>

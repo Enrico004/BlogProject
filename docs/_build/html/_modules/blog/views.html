@@ -73,6 +73,7 @@
              
   <h1>Quellcode für blog.views</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">login</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserCreationForm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.views</span><span class="w"> </span><span class="kn">import</span> <span class="n">PasswordChangeView</span>
@@ -86,11 +87,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">blog.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlogForm</span><span class="p">,</span> <span class="n">UpdateUserForm</span><span class="p">,</span> <span class="n">UpdateProfileForm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">blog.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blog</span>
 
-
-<span class="c1"># Create your views here.</span>
 <div class="viewcode-block" id="BlogListView">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogListView">[Doku]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogListView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    View-Klasse für die Liste aller Beiträge</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Blog</span>
     <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;blog/blog_list.html&#39;</span>
     <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;blogs&#39;</span>
@@ -98,6 +100,11 @@
 <div class="viewcode-block" id="BlogListView.get_queryset">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogListView.get_queryset">[Doku]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Überschreibt die Standard-Methode.</span>
+<span class="sd">        Sammelt alle Beiträge des Nutzers, fügt die Anzahl der Likes hinzu und ordnet sie nach dem Erstellungsdatum</span>
+<span class="sd">        :return: Liste von Blog-Objekten</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">like_count</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;likes&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;created_date&#39;</span><span class="p">)</span></div>
 </div>
 
@@ -105,6 +112,9 @@
 <div class="viewcode-block" id="BlogDetailView">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogDetailView">[Doku]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogDetailView</span><span class="p">(</span><span class="n">DetailView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    View-Klasse zur Darstellung einer Detail-View</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Blog</span>
     <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;blog&#39;</span>
     <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;blog/blog_detail.html&#39;</span>
@@ -113,6 +123,11 @@
 <div class="viewcode-block" id="BlogDetailView.get_object">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogDetailView.get_object">[Doku]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Überschreibt Standard-Methode. Inkrementiert die Anzahl an Aufrufen, sobald Detail-Seite aufgerufen wird</span>
+<span class="sd">        :param queryset:</span>
+<span class="sd">        :return: Beitrag mit inkrementiert Anzahl an aufrufen</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Hole das Blog-Objekt</span>
         <span class="n">blog</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">queryset</span><span class="p">)</span>
         <span class="c1"># Erhöhe die Klickanzahl</span>
@@ -124,24 +139,36 @@
 <div class="viewcode-block" id="BlogDetailView.get_context_data">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogDetailView.get_context_data">[Doku]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Überschreibt Standard-Methode. Fügt die Anzahl der Likes zum Kontext hinzu</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">        :return: Überarbeiteter Kontext</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">add_likes_to_data_context</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pk&#39;</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;user_blogs&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">:</span>
+            <span class="n">blogs</span> <span class="o">=</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;created_date&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">blogs</span> <span class="o">=</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;created_date&#39;</span><span class="p">)</span>
+        <span class="n">current_blog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span>
+        <span class="n">blog_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">blogs</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="s1">&#39;pk&#39;</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">current_index</span> <span class="o">=</span> <span class="n">blog_ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">current_blog</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;previous_blog&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">blog_ids</span><span class="p">[</span><span class="n">current_index</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">current_index</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;next_blog&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">blog_ids</span><span class="p">[</span><span class="n">current_index</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">current_index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">blog_ids</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div>
 </div>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">blog_post_like</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
-    <span class="n">post</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Blog</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;blogpost_id&#39;</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">post</span><span class="o">.</span><span class="n">likes</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="n">post</span><span class="o">.</span><span class="n">likes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">post</span><span class="o">.</span><span class="n">likes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span><span class="s1">&#39;like-count&#39;</span><span class="p">:</span><span class="n">post</span><span class="o">.</span><span class="n">likes</span><span class="o">.</span><span class="n">count</span><span class="p">()})</span>
 
 <div class="viewcode-block" id="BlogCreateView">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogCreateView">[Doku]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogCreateView</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    View-Klasse zum Erstellen eines Beitrags</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Blog</span>
     <span class="n">form_class</span> <span class="o">=</span> <span class="n">BlogForm</span>
     <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;blog/blog_create.html&#39;</span>
@@ -150,6 +177,11 @@
 <div class="viewcode-block" id="BlogCreateView.form_valid">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogCreateView.form_valid">[Doku]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Überschreiben der Standard-Methode. Fügt aktuellen Nutzer als Autor hinzu</span>
+<span class="sd">        :param form: Aktuelle bearbeitete From</span>
+<span class="sd">        :return: HttpResponseRedirect abhängig von der Validität</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Get authenticated user and set it as the blog author</span>
         <span class="c1"># authenticated user is guaranteed because of login_required in urls.py</span>
         <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
@@ -159,6 +191,11 @@
 <div class="viewcode-block" id="BlogCreateView.get_context_data">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogCreateView.get_context_data">[Doku]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bearbeitet den bereits erstellten Kontext. Setzt die Anzahl an Aufrufen auf 0</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">        :return: Überarbeiter Kontext</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="c1"># Übergibt ein leeres Blog-Objekt für den Zugriff auf Klicks/Likes</span>
         <span class="n">context</span><span class="p">[</span><span class="s1">&#39;blog&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="ow">or</span> <span class="n">Blog</span><span class="p">(</span><span class="n">clicks</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -171,6 +208,12 @@
 <a class="viewcode-back" href="../../blog.html#blog.views.blog_post_like">[Doku]</a>
 <span class="nd">@login_required</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">blog_post_like</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funktion zum Liken/Unliken eines Beitrags. Wenn der User den Beitrag bereits geliked hat, wird dieser entfernt. Ansonsten wird ein Like hinzugefügt</span>
+<span class="sd">    :param request: Anfrage vom Frontend</span>
+<span class="sd">    :param pk: Primärschlüssel des Beitrags</span>
+<span class="sd">    :return: JSON mit der Anzahl an Likes(like_count) und ob der User den Beitrag geliked hat(liked)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blog</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Blog</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">blog</span><span class="o">.</span><span class="n">likes</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
@@ -189,36 +232,44 @@
 <div class="viewcode-block" id="BlogDeleteView">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogDeleteView">[Doku]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogDeleteView</span><span class="p">(</span><span class="n">DeleteView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Klasse zum Löschen von Beiträgen</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Blog</span>
     <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;blogs:blog_list&#39;</span><span class="p">)</span>
-    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;blog/blog_delete.html&#39;</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;blog/blog_delete.html&#39;</span></div>
 
-<div class="viewcode-block" id="BlogDeleteView.get_object">
-<a class="viewcode-back" href="../../blog.html#blog.views.BlogDeleteView.get_object">[Doku]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># Increment clicks only if the user is visiting (not liking)</span>
-        <span class="n">blog</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">queryset</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;GET&quot;</span><span class="p">:</span>
-            <span class="n">blog</span><span class="o">.</span><span class="n">clicks</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">blog</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">blog</span></div>
-</div>
 
 
 <div class="viewcode-block" id="BlogDashboardView">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogDashboardView">[Doku]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogDashboardView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    View-Klasse für die Dashboard-View</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Blog</span>
     <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;blog/blog_dashboard.html&#39;</span>  <span class="c1"># Verwendet das neue Template</span>
     <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;latest_blogs&#39;</span>  <span class="c1"># Kontextname für das QuerySet im Template</span>
+
 <div class="viewcode-block" id="BlogDashboardView.get_queryset">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogDashboardView.get_queryset">[Doku]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Überschreibt die Standard-Methode.</span>
+<span class="sd">        Sammelt alle Beiträge, fügt die Anzahl der Likes hinzu und ordnet sie nach dem Erstellungsdatum</span>
+<span class="sd">        :return: Liste von Blog-Objekten</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">like_count</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;likes&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;created_date&#39;</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="BlogDashboardView.get_context_data">
 <a class="viewcode-back" href="../../blog.html#blog.views.BlogDashboardView.get_context_data">[Doku]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Überschreibt standard-Methode. Fügt dem Kontext die 5 letzten und 5 meistgeklickten Beiträge hinzu</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">        :return: Kontext zur Verarbeitung im Frontend</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="c1"># Neueste 5 Blogs</span>
         <span class="n">context</span><span class="p">[</span><span class="s1">&#39;latest_blogs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">like_count</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;likes&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created_date&#39;</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span>
@@ -235,8 +286,21 @@
 <span class="sd">    View-Klasse zum Erstellen eines neuen Nutzers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">form_class</span> <span class="o">=</span> <span class="n">UserCreationForm</span>
-    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;blogs:login&#39;</span><span class="p">)</span>
-    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;registration/signup.html&#39;</span></div>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;blogs:blog_dashboard&#39;</span><span class="p">)</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;registration/signup.html&#39;</span>
+
+<div class="viewcode-block" id="SignupView.form_valid">
+<a class="viewcode-back" href="../../blog.html#blog.views.SignupView.form_valid">[Doku]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Überschreibt Standard-Methode. Nach der Registrierung wird der User angemeldet und zum Dashboard weitergeleitet</span>
+<span class="sd">        :param form: Bearbeitete Form</span>
+<span class="sd">        :return: Redirect zum Dashboard</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;blogs:blog_dashboard&#39;</span><span class="p">)</span></div>
+</div>
 
 
 
@@ -314,7 +378,7 @@
             <span class="n">user_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
             <span class="n">profile_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
             <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Your profile has been updated!&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="s1">&#39;users-profile&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="s1">&#39;blogs:users-profile&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">user_form</span> <span class="o">=</span> <span class="n">UpdateUserForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
         <span class="n">profile_form</span> <span class="o">=</span> <span class="n">UpdateProfileForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>

@@ -588,6 +588,7 @@ Speichert das dazugehörige Profil (Avatar)
 <dt class="sig sig-object py" id="blog.views.BlogCreateView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blog.views.</span></span><span class="sig-name descname"><span class="pre">BlogCreateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogCreateView"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogCreateView" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CreateView</span></code></p>
+<p>View-Klasse zum Erstellen eines Beitrags</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blog.views.BlogCreateView.form_class">
 <span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#blog.views.BlogCreateView.form_class" title="Link to this definition"></a></dt>
@@ -597,13 +598,17 @@ Speichert das dazugehörige Profil (Avatar)
 <dl class="py method">
 <dt class="sig sig-object py" id="blog.views.BlogCreateView.form_valid">
 <span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogCreateView.form_valid"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogCreateView.form_valid" title="Link to this definition"></a></dt>
-<dd><p>If the form is valid, save the associated model.</p>
+<dd><p>Überschreiben der Standard-Methode. Fügt aktuellen Nutzer als Autor hinzu
+:param form: Aktuelle bearbeitete From
+:return: HttpResponseRedirect abhängig von der Validität</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="blog.views.BlogCreateView.get_context_data">
 <span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogCreateView.get_context_data"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogCreateView.get_context_data" title="Link to this definition"></a></dt>
-<dd><p>Insert the form into the context dict.</p>
+<dd><p>Bearbeitet den bereits erstellten Kontext. Setzt die Anzahl an Aufrufen auf 0
+:param kwargs:
+:return: Überarbeiter Kontext</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -628,6 +633,7 @@ Speichert das dazugehörige Profil (Avatar)
 <dt class="sig sig-object py" id="blog.views.BlogDashboardView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blog.views.</span></span><span class="sig-name descname"><span class="pre">BlogDashboardView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogDashboardView"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogDashboardView" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></p>
+<p>View-Klasse für die Dashboard-View</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blog.views.BlogDashboardView.context_object_name">
 <span class="sig-name descname"><span class="pre">context_object_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'latest_blogs'</span></em><a class="headerlink" href="#blog.views.BlogDashboardView.context_object_name" title="Link to this definition"></a></dt>
@@ -636,15 +642,17 @@ Speichert das dazugehörige Profil (Avatar)
 <dl class="py method">
 <dt class="sig sig-object py" id="blog.views.BlogDashboardView.get_context_data">
 <span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogDashboardView.get_context_data"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogDashboardView.get_context_data" title="Link to this definition"></a></dt>
-<dd><p>Get the context for this view.</p>
+<dd><p>Überschreibt standard-Methode. Fügt dem Kontext die 5 letzten und 5 meistgeklickten Beiträge hinzu
+:param kwargs:
+:return: Kontext zur Verarbeitung im Frontend</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="blog.views.BlogDashboardView.get_queryset">
 <span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogDashboardView.get_queryset"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogDashboardView.get_queryset" title="Link to this definition"></a></dt>
-<dd><p>Return the list of items for this view.</p>
-<p>The return value must be an iterable and may be an instance of
-<cite>QuerySet</cite> in which case <cite>QuerySet</cite> specific behavior will be enabled.</p>
+<dd><p>Überschreibt die Standard-Methode.
+Sammelt alle Beiträge, fügt die Anzahl der Likes hinzu und ordnet sie nach dem Erstellungsdatum
+:return: Liste von Blog-Objekten</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -664,14 +672,7 @@ Speichert das dazugehörige Profil (Avatar)
 <dt class="sig sig-object py" id="blog.views.BlogDeleteView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blog.views.</span></span><span class="sig-name descname"><span class="pre">BlogDeleteView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogDeleteView"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogDeleteView" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DeleteView</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="blog.views.BlogDeleteView.get_object">
-<span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queryset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogDeleteView.get_object"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogDeleteView.get_object" title="Link to this definition"></a></dt>
-<dd><p>Return the object the view is displaying.</p>
-<p>Require <cite>self.queryset</cite> and a <cite>pk</cite> or <cite>slug</cite> argument in the URLconf.
-Subclasses can override this to return any object.</p>
-</dd></dl>
-
+<p>Klasse zum Löschen von Beiträgen</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blog.views.BlogDeleteView.model">
 <span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#blog.views.BlogDeleteView.model" title="Link to this definition"></a></dt>
@@ -694,6 +695,7 @@ Subclasses can override this to return any object.</p>
 <dt class="sig sig-object py" id="blog.views.BlogDetailView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blog.views.</span></span><span class="sig-name descname"><span class="pre">BlogDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogDetailView"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogDetailView" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></p>
+<p>View-Klasse zur Darstellung einer Detail-View</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blog.views.BlogDetailView.context_object_name">
 <span class="sig-name descname"><span class="pre">context_object_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'blog'</span></em><a class="headerlink" href="#blog.views.BlogDetailView.context_object_name" title="Link to this definition"></a></dt>
@@ -702,15 +704,17 @@ Subclasses can override this to return any object.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="blog.views.BlogDetailView.get_context_data">
 <span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogDetailView.get_context_data"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogDetailView.get_context_data" title="Link to this definition"></a></dt>
-<dd><p>Insert the single object into the context dict.</p>
+<dd><p>Überschreibt Standard-Methode. Fügt die Anzahl der Likes zum Kontext hinzu
+:param kwargs:
+:return: Überarbeiteter Kontext</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="blog.views.BlogDetailView.get_object">
 <span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queryset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogDetailView.get_object"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogDetailView.get_object" title="Link to this definition"></a></dt>
-<dd><p>Return the object the view is displaying.</p>
-<p>Require <cite>self.queryset</cite> and a <cite>pk</cite> or <cite>slug</cite> argument in the URLconf.
-Subclasses can override this to return any object.</p>
+<dd><p>Überschreibt Standard-Methode. Inkrementiert die Anzahl an Aufrufen, sobald Detail-Seite aufgerufen wird
+:param queryset:
+:return: Beitrag mit inkrementiert Anzahl an aufrufen</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -730,6 +734,7 @@ Subclasses can override this to return any object.</p>
 <dt class="sig sig-object py" id="blog.views.BlogListView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blog.views.</span></span><span class="sig-name descname"><span class="pre">BlogListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogListView"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogListView" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></p>
+<p>View-Klasse für die Liste aller Beiträge</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blog.views.BlogListView.context_object_name">
 <span class="sig-name descname"><span class="pre">context_object_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'blogs'</span></em><a class="headerlink" href="#blog.views.BlogListView.context_object_name" title="Link to this definition"></a></dt>
@@ -738,9 +743,9 @@ Subclasses can override this to return any object.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="blog.views.BlogListView.get_queryset">
 <span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#BlogListView.get_queryset"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.BlogListView.get_queryset" title="Link to this definition"></a></dt>
-<dd><p>Return the list of items for this view.</p>
-<p>The return value must be an iterable and may be an instance of
-<cite>QuerySet</cite> in which case <cite>QuerySet</cite> specific behavior will be enabled.</p>
+<dd><p>Überschreibt die Standard-Methode.
+Sammelt alle Beiträge des Nutzers, fügt die Anzahl der Likes hinzu und ordnet sie nach dem Erstellungsdatum
+:return: Liste von Blog-Objekten</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -790,9 +795,17 @@ Bei Erfolg wird der Nutzer an das Dashboard weitergeleitet</p>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">UserCreationForm</span></code></p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="blog.views.SignupView.form_valid">
+<span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#SignupView.form_valid"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.SignupView.form_valid" title="Link to this definition"></a></dt>
+<dd><p>Überschreibt Standard-Methode. Nach der Registrierung wird der User angemeldet und zum Dashboard weitergeleitet
+:param form: Bearbeitete Form
+:return: Redirect zum Dashboard</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blog.views.SignupView.success_url">
-<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/blogs/accounts/login/'</span></em><a class="headerlink" href="#blog.views.SignupView.success_url" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/blogs/dashboard/'</span></em><a class="headerlink" href="#blog.views.SignupView.success_url" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -846,7 +859,11 @@ Sammelt alle Beiträge des Nutzers, fügt die Anzahl der Likes hinzu und ordnet 
 <dl class="py function">
 <dt class="sig sig-object py" id="blog.views.blog_post_like">
 <span class="sig-prename descclassname"><span class="pre">blog.views.</span></span><span class="sig-name descname"><span class="pre">blog_post_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/blog/views.html#blog_post_like"><span class="viewcode-link"><span class="pre">[Quellcode]</span></span></a><a class="headerlink" href="#blog.views.blog_post_like" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funktion zum Liken/Unliken eines Beitrags. Wenn der User den Beitrag bereits geliked hat, wird dieser entfernt. Ansonsten wird ein Like hinzugefügt
+:param request: Anfrage vom Frontend
+:param pk: Primärschlüssel des Beitrags
+:return: JSON mit der Anzahl an Likes(like_count) und ob der User den Beitrag geliked hat(liked)</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blog.views.profile">
