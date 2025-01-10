@@ -59,6 +59,18 @@ class BlogDetailView(DetailView):
         """
         data = super().get_context_data(**kwargs)
         data = add_likes_to_data_context(self.kwargs['pk'],self.request.user.id,data)
+
+        if 'user_blogs' in self.request.GET:
+            blogs = Blog.objects.filter(author=self.request.user).order_by('created_date')
+        else:
+            blogs = Blog.objects.all().order_by('created_date')
+        current_blog = self.object
+        blog_ids = list(blogs.values_list('pk', flat=True))
+        current_index = blog_ids.index(current_blog.pk)
+
+        data['previous_blog'] = blog_ids[current_index-1] if current_index > 0 else None
+        data['next_blog'] = blog_ids[current_index+1] if current_index < len(blog_ids)-1 else None
+        print(data)
         return data
 
 
@@ -233,7 +245,7 @@ def profile(request):
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your profile has been updated!')
-            return redirect(to='users-profile')
+            return redirect(to='blogs:users-profile')
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)

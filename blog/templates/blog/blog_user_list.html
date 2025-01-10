@@ -25,7 +25,7 @@
                 <tr>
                     <!-- Titel als Link zur Detailansicht -->
                     <td>
-                        <a href="{% url 'blogs:blog_detail' blog.pk %}" class="blog-link">
+                        <a href="{% url 'blogs:blog_detail' blog.pk %}?user_blogs=true" class="blog-link">
                             {{ blog.title }}
                         </a>
                     </td>
