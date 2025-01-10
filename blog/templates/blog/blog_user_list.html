@@ -22,13 +22,13 @@
                 <td>{{ blog.title }}</td>
                 <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
                 <td>{{ blog.clicks }}</td>
-                <td>{{ blog.likes }}</td>
+                <td>{{ blog.like_count }}</td>
                 <td>{{ blog.autor }}</td>
                 <td>Bearbeiten</td>
                 <td>Löschen</td>
             </tr>
+        {% endfor %}
         </tbody>
-{% endfor %}
     </table>
     <a href="{% url 'blog_dashboard' %}">Blog Dashboard anzeigen</a>
     <a href="{% url 'blog_create' %}">Add new Blog</a>

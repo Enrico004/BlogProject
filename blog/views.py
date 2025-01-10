@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
@@ -17,6 +18,9 @@ class BlogListView(ListView):
     model = Blog
     template_name = 'blog/blog_list.html'
     context_object_name = 'blogs'
+
+    def get_queryset(self):
+        return Blog.objects.annotate(like_count=Count('likes')).order_by('created_date')
 
 class BlogDetailView(DetailView):
     model = Blog
@@ -97,13 +101,14 @@ class BlogDashboardView(ListView):
     model = Blog
     template_name = 'blog/blog_dashboard.html'  # Verwendet das neue Template
     context_object_name = 'latest_blogs'  # Kontextname für das QuerySet im Template
-
+    def get_queryset(self):
+        return Blog.objects.annotate(like_count=Count('likes')).order_by('created_date')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Neueste 5 Blogs
-        context['latest_blogs'] = Blog.objects.all().order_by('-created_date')[:5]
+        context['latest_blogs'] = Blog.objects.all().annotate(like_count=Count('likes')).order_by('-created_date')[:5]
         # 5 Blogs mit den meisten Klicks
-        context['most_clicked_blogs'] = Blog.objects.all().order_by('-clicks')[:5]
+        context['most_clicked_blogs'] = Blog.objects.all().annotate(like_count=Count('likes')).order_by('-clicks')[:5]
         return context
 
 class SignupView(CreateView):
