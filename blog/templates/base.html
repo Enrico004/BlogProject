@@ -47,15 +47,12 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'blogs:blog_list' %}">Alle Blogs</a>
             </li>
-            <!-- Create BLog Link -->
-            <li class="nav-item">
-                <a class="nav-link ms-auto" href="{% url 'blogs:blog_create' %}">Beitrag erstellen</a>
-            </li>
         </ul>
-          <!-- User Dropdown -->
-          <div class="dropdown ms-auto"> <!-- ms-auto pushes this dropdown to the right -->
+          <div class="dropdown d-flex align-items-center ms-auto">
+            <a class="nav-link ms-auto m-4" href="{% url 'blogs:blog_create' %}">Beitrag erstellen</a>
+              <!-- User Dropdown -->
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-person-circle"></i> <!-- Bootstrap icon -->
+              <i class="bi bi-person-circle"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
               {% if user.is_authenticated %}
