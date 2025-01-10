@@ -33,7 +33,7 @@
                     <td>{{ blog.clicks }}</td>
                     <td>{{ blog.like_count }}</td>
                     <td>
-                        <form action="{% url 'blogs:blogs:blog_delete' blog.id %}" method="post">
+                        <form action="{% url 'blogs:blog_delete' blog.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Löschen</button>
                         </form>

@@ -54,7 +54,7 @@ class BlogCreateView(CreateView):
     model = Blog
     form_class = BlogForm
     template_name = 'blog/blog_create.html'
-    success_url = reverse_lazy('blog_list')
+    success_url = reverse_lazy('blogs:blog_list')
 
     def form_valid(self, form):
         # Get authenticated user and set it as the blog author
@@ -87,7 +87,7 @@ def blog_post_like(request, pk):
 
 class BlogDeleteView(DeleteView):
     model = Blog
-    success_url = reverse_lazy('blog_list')
+    success_url = reverse_lazy('blogs:blog_list')
     template_name = 'blog/blog_delete.html'
 
     def get_object(self, queryset=None):
@@ -114,13 +114,13 @@ class BlogDashboardView(ListView):
 
 class SignupView(CreateView):
     form_class = UserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('blogs:login')
     template_name = 'registration/signup.html'
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'blog/change_password.html'
-    success_url = reverse_lazy('blog_dashboard')
+    success_url = reverse_lazy('blogs:blog_dashboard')
     success_message = 'Your password has been updated.'
 
 
