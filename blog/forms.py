@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 from .models import Blog, Profile
 
-
+"""Das ist ein Test für die Dokumentation. Wir befinden uns hier grade in der Forms.py"""
 class BlogForm(forms.ModelForm):
     """
     Form-Klasse zum Erstellen eines Blogs
