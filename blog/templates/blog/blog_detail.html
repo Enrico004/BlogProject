@@ -39,13 +39,13 @@
 </style>
 <script>
     const likeButton = document.getElementById('like-button');
-    const likeCountElement = document.getElementById('like-count'); // Reference to the like count element
+    const likeCountElement = document.getElementById('like-count');
 
     likeButton.addEventListener('click', function () {
         const postId = {{ blog.id }};
         const csrfToken = '{{ csrf_token }}';
 
-        fetch(`/blogs/like/${postId}/`, {  // Note the trailing slash here
+        fetch(`/blogs/like/${postId}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,14 +59,13 @@
             return response.json();
         })
         .then(data => {
-            // Update the button text based on like status
+            // after receiving response from the backend update the content of the like-count element
             likeButton.innerText = data.liked ? 'Unlike' : 'Like';
             if(data.like_count === 1)
                 text = 'Like';
             else{
                 text = 'Likes';
             }
-            // Update the like count dynamically
             likeCountElement.innerText = `${data.like_count} ${text}`;
         })
         .catch(error => {

@@ -24,7 +24,7 @@
                     </a>
                 </td>
                 <td>{{ blog.created_date|date:"d.m.Y H:i" }}</td>
-                <td>{{ blog.author }}</td>
+                <td><img src="{{ blog.author.profile.avatar.url }}">{{ blog.author }}</td>
                 <td>{{ blog.clicks }}</td>
                 <td>{{ blog.number_of_likes }} Like{{ blog.number_of_likes|pluralize }}</td>
             </tr>
