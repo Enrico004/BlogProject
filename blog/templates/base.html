@@ -3,37 +3,27 @@
 
 <head>
   <meta charset="utf-8">
-    <title>Blog List</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
+  <title>{% block title %}Blog List{% endblock %}</title>
+  
+  <!-- Hier werden die Styles aus den Untertemplates eingefügt -->
+  {% block styles %}
+  {% endblock %}
 </head>
 
 <body>
   <main>
   {% if user.is_authenticated %}
-      <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-          <button type="submit">Logout</button>
-      </form>
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit">Logout</button>
+    </form>
   {% else %}
     <form action="{% url 'login' %}" method="get">
-        <button type="submit">Login</button>
+      <button type="submit">Login</button>
     </form>
     <form action="{% url 'signup' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Register</button>
+      {% csrf_token %}
+      <button type="submit">Register</button>
     </form>
   {% endif %}
     {% block content %}

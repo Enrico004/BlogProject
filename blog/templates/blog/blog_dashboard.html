@@ -4,32 +4,179 @@
 {% block content %}
     <h1>Dashboard</h1>
 
-    <!-- Neueste Blogs -->
-    <h2>Neueste Blogs</h2>
-    <ul>
-        {% for blog in latest_blogs %}
-            <li>
-                <h3><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h3>
-                <p>Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
-                <p>Aufrufe: {{ blog.clicks }}</p>
-                <p>Like{{ blog.number_of_likes|pluralize }}: {{ blog.number_of_likes }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+    <!-- Link zur Blog-Liste oben -->
+    <div class="dashboard-actions top">
+        <a href="{% url 'blog_list' %}" class="btn">Alle Blogs anzeigen</a>
+    </div>
 
-    <!-- Blogs mit den meisten Klicks -->
-    <h2>Beliebteste Blogs (nach Klicks)</h2>
-    <ul>
-        {% for blog in most_clicked_blogs %}
-            <li>
-                <h3><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h3>
-                <p>Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
-                <p>Aufrufe: {{ blog.clicks }}</p>
-                <p>Like{{ blog.number_of_likes|pluralize }}: {{ blog.number_of_likes }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="dashboard-container">
+        <!-- Neueste Blogs (linke Seite) -->
+        <div class="section latest-blogs">
+            <h2 class="section-title">Neueste Blogs</h2>
+            <ul class="blog-list">
+                {% for blog in latest_blogs %}
+                    <li class="blog-item">
+                        <div class="blog-card">
+                            <h3><a href="{% url 'blog_detail' blog.pk %}" class="blog-title">{{ blog.title }}</a></h3>
+                            <p class="blog-meta">Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
+                            <p class="blog-stats">Aufrufe: {{ blog.clicks }} | Likes: {{ blog.likes }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <!-- Link zur Blog-Liste -->
-    <a href="{% url 'blog_list' %}">Alle Blogs anzeigen</a>
+        <!-- Blogs mit den meisten Klicks (rechte Seite) -->
+        <div class="section most-clicked-blogs">
+            <h2 class="section-title">Beliebteste Blogs (nach Klicks)</h2>
+            <ul class="blog-list">
+                {% for blog in most_clicked_blogs %}
+                    <li class="blog-item">
+                        <div class="blog-card">
+                            <h3><a href="{% url 'blog_detail' blog.pk %}" class="blog-title">{{ blog.title }}</a></h3>
+                            <p class="blog-meta">Erstellt am: {{ blog.created_date|date:"d.m.Y H:i" }}</p>
+                            <p class="blog-stats">Aufrufe: {{ blog.clicks }} | Likes: {{ blog.likes }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Link zur Blog-Liste unten -->
+    <div class="dashboard-actions bottom">
+        <a href="{% url 'blog_list' %}" class="btn">Alle Blogs anzeigen</a>
+    </div>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .dashboard-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-top: 2rem;
+        }
+
+        .dashboard-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin: 2rem;
+        }
+
+        .section {
+            width: 48%; /* Beide Sektionen nehmen je 48% der Breite ein */
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .blog-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .blog-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-card {
+            padding: 1.5rem;
+            background-color: #fafafa;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .blog-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0056b3;
+            text-decoration: none;
+        }
+
+        .blog-title:hover {
+            text-decoration: underline;
+        }
+
+        .blog-meta {
+            color: #777;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .blog-stats {
+            font-size: 1rem;
+            color: #555;
+            margin-top: 0.5rem;
+        }
+
+        .dashboard-actions {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.6rem;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column; /* Auf kleinen Bildschirmen untereinander anzeigen */
+                width: 95%;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .blog-title {
+                font-size: 1.2rem;
+            }
+
+            .section {
+                width: 100%;
+            }
+        }
+
+        .top {
+            margin-top: 1rem;
+        }
+
+        .bottom {
+            margin-top: 2rem;
+        }
+    </style>
 {% endblock %}
