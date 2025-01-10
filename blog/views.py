@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import PasswordChangeView
@@ -158,8 +159,18 @@ class SignupView(CreateView):
     View-Klasse zum Erstellen eines neuen Nutzers.
     """
     form_class = UserCreationForm
-    success_url = reverse_lazy('blogs:login')
+    success_url = reverse_lazy('blogs:blog_dashboard')
     template_name = 'registration/signup.html'
+
+    def form_valid(self, form):
+        """
+        Überschreibt Standard-Methode. Nach der Registrierung wird der User angemeldet und zum Dashboard weitergeleitet
+        :param form: Bearbeitete Form
+        :return: Redirect zum Dashboard
+        """
+        user = form.save()
+        login(self.request, user)
+        return redirect('blogs:blog_dashboard')
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
